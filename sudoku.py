@@ -1,3 +1,4 @@
+
 class Cell:
 
     def __init__(self, value : int, x_coords : int, y_coords):
