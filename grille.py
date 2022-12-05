@@ -6,24 +6,26 @@ class Grille:
         self.y=0
         self.board = []
         self.size = 9
-        # self.values = [8, 0, 7, 0, 0, 0, 0, 0, 0,
-        #                0, 3, 1, 0, 0, 2, 4, 0, 0,
-        #                0, 4, 0, 0, 0, 0, 0, 5, 2,
-        #                9, 6, 0, 4, 1, 0, 8, 7, 0,
-        #                1, 0, 0, 7, 0, 3, 9, 2, 0,
-        #                0, 0, 4, 9, 0, 8, 1, 0, 0,
-        #                4, 0, 6, 1, 0, 7, 2, 3, 0,
-        #                7, 5, 3, 0, 0, 0, 0, 9, 1,
-        #                0, 1, 0, 0, 0, 6, 5, 0, 0]
-        self.values = [8, 1, 3, 9, 2, 5, 7, 4, 6,
-                       9, 5, 6, 8, 4, 7, 3, 1, 2,
-                       4, 7, 2, 3, 6, 1, 8, 9, 5,
-                       6, 2, 4, 7, 1, 9, 5, 3, 8,
-                       7, 9, 5, 6, 3, 8, 4, 2, 1,
-                       3, 8, 1, 4, 5, 2, 9, 6, 7,
-                       2, 3, 8, 1, 7, 4, 6, 5, 9,
-                       5, 4, 9, 2, 9, 6, 1, 7, 3,
-                       1, 6, 7, 5, 9, 3, 2, 8, 4]
+        self.current_y = 0
+        self.current_x = 0
+        self.values = [8, 0, 7, 0, 0, 0, 0, 0, 0,
+                       0, 3, 1, 0, 0, 2, 4, 0, 0,
+                       0, 4, 0, 0, 0, 0, 0, 5, 2,
+                       9, 6, 0, 4, 1, 0, 8, 7, 0,
+                       1, 0, 0, 7, 0, 3, 9, 2, 0,
+                       0, 0, 4, 9, 0, 8, 1, 0, 0,
+                       4, 0, 6, 1, 0, 7, 2, 3, 0,
+                       7, 5, 3, 0, 0, 0, 0, 9, 1,
+                       0, 1, 0, 0, 0, 6, 5, 0, 0]
+        # self.values = [8, 1, 3, 9, 2, 5, 7, 4, 6,
+        #                9, 5, 6, 8, 4, 7, 3, 1, 2,
+        #                4, 7, 2, 3, 6, 1, 8, 9, 5,
+        #                6, 2, 4, 7, 1, 9, 5, 3, 8,
+        #                7, 9, 5, 6, 3, 8, 4, 2, 1,
+        #                3, 8, 1, 4, 5, 2, 9, 6, 7,
+        #                2, 3, 8, 1, 7, 4, 6, 5, 9,
+        #                5, 4, 9, 2, 8, 6, 1, 7, 3,
+        #                1, 6, 7, 5, 9, 3, 2, 8, 4]
         self.possible_values = [*range(1,10)]
 
     def create_board(self):
@@ -33,6 +35,7 @@ class Grille:
             if self.x > 8:
                 self.x = 0
                 self.y += 1
+        return self.board
         # print(self.board)
 
         # print(self.possible_values)
@@ -121,12 +124,40 @@ class Grille:
             print(f"There are {nbroffalse//3} errors")
             print(nbroffalse)
 
+    def check_row_possible_values(self):
+        board = self.create_board()
+        list_of_cells_same_row = []
+        cell : Cell
+        for cell in board:
+                if cell.value != 0 and cell.y_coords == self.current_y:
+                    list_of_cells_same_row.append(int(cell))
+
+        return list_of_cells_same_row, board
+
+    def update_possible_values(self):
+        list_of_cells_same_row, board = self.check_row_possible_values()
+
+        for cell in board:
+            if cell.value == 0 and cell.y_coords == self.current_y:
+                for i in list_of_cells_same_row:
+                    cell.possible_values.remove(i)
+                    print(cell.possible_values)
+        self.current_y +=1
+
+        if self.current_y < 9:
+            self.update_possible_values()
+
+
+
+
+
+
+
+
     # def solver(self):
     #     board = self.create_board()
     #     cell : Cell
 
-    #     same_col = []
-    #     same_group = []
     #     current_row = 0
     #     current_col = 0
     #     current_grp = 0
@@ -136,15 +167,16 @@ class Grille:
     #         if cell.y_coords == current_row:
     #             same_row.append(cell)
     #             for cell in same_row:
-    #                 if cell.value == 0:
+    #                 print(cell.possible_values)
+    #                 print(values_to_remove)
+    #                 print(same_row)
+    #                 if int(cell) == 0:
     #                     same_row.remove(cell)
     #                     for cell in same_row:
     #                         values_to_remove.append(int(cell))
     #             for i in values_to_remove:
     #                 cell.possible_values.remove(i)
-    #     print(cell.possible_values)
-    #     print(values_to_remove)
-    #     print(same_row)
+
 
         #     if cell.x_coords == current_col:
         #         same_col.append(self.board[cell])
@@ -153,4 +185,4 @@ class Grille:
         # print(same_row, same_col, same_group)
 
 grille = Grille()
-grille.count_errors()
+grille.update_possible_values()
