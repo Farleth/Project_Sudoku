@@ -1,7 +1,8 @@
 
 class Cell:
 
-    def __init__(self, value : int, x_coords : int, y_coords):
+
+    def __init__(self, value : int, x_coords : int, y_coords : int):
             self.value = value
             self.x_coords = x_coords
             self.y_coords = y_coords
@@ -10,6 +11,7 @@ class Cell:
 
     def __str__(self) -> str:
         return f'x={self.x_coords}, y={self.y_coords}, g={self.groupe}, v={self.value}'
+
 
     def __repr__(self) -> str:
         return self.__str__()
