@@ -1,17 +1,27 @@
-import numpy as np
+
+class Cell:
 
 
-class Cell():
-
-    def __init__(self, x_coords: int, y_coords : int):
-        self.y_coords = y_coords
-        self.value : int = 0
-        self.x_coords = x_coords
-        self.group : int = ((y_coords//3) * 3) + x_coords//3
-        self.possible_values = [1,2,3,4,5,6,7,8,9]
+    def __init__(self, value : int, x_coords : int, y_coords : int):
+            self.value = value
+            self.x_coords = x_coords
+            self.y_coords = y_coords
+            self.groupe  : int = ((y_coords//3) * 3) + x_coords//3
+            self.possible_values = [*range(1,10)]
 
     def __str__(self) -> str:
-        return f'{self.group}'
+        return f'x={self.x_coords}, y={self.y_coords}, g={self.groupe}, v={self.value}'
+
 
     def __repr__(self) -> str:
         return self.__str__()
+
+    def __int__(self):
+        return self.value
+
+    def __index__(self):
+        cellidx = self.x_coords + 9 * self.y_coords
+        return cellidx
+
+    def __getitem__(self):
+        return self
