@@ -7,11 +7,11 @@ class Cell():
         self.y_coords = y_coords
         self.value : int = 0
         self.x_coords = x_coords
-        self.group : int = ((x_coords//3) * 3) + y_coords//3
+        self.group : int = ((y_coords//3) * 3) + x_coords//3
         self.possible_values = [1,2,3,4,5,6,7,8,9]
 
     def __str__(self) -> str:
-        return f'value={self.value},x= {self.x_coords}, y={self.y_coords}'
+        return f'{self.group}'
 
     def __repr__(self) -> str:
         return self.__str__()
